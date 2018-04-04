@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+
+    <class name="com.dgd.entity.Timekeeper" table="TIMEKEEPER" schema="h_db">
+        <id name="timekeeperId" column="Timekeeper_Id"/>
+        <property name="dateTime" column="Date_Time"/>
+        <property name="inOut" column="In_Out"/>
+    </class>
+</hibernate-mapping>
