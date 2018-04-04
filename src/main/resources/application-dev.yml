@@ -4,17 +4,13 @@
 server:
   port: 8080
 
-
-
 spring:
-  datasource:
-    type: com.alibaba.druid.pool.DruidDataSource
-    driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql://172.19.0.205:3306/dev_jhtedu?useUnicode=true&characterEncoding=utf8
-    username: root
-    password: jhtdb123456
   devtools:
     restart:
       enabled: true
+
+logging:
+  level: info
+
 
 

@@ -22,9 +22,7 @@
     <property name="show_sql">false</property>
 
     <mapping class="com.dgd.entity.Department"/>
-    <mapping resource="hbm/Department.hbm.xml"/>
     <mapping class="com.dgd.entity.Employee"/>
-    <mapping resource="hbm/Employee.hbm.xml"/>
     <mapping class="com.dgd.entity.SalaryGrade"/>
     <mapping resource="hbm/SalaryGrade.hbm.xml"/>
     <mapping class="com.dgd.entity.Timekeeper"/>

@@ -1,59 +1,78 @@
 package com.dgd.entity;
 
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * @Author DGD
  * @date 2018/4/4.
  */
 @Entity
+@Table(name = "DEPARTMENT", uniqueConstraints = { @UniqueConstraint(columnNames = { "DEPT_NO" }) })
 public class Department {
-    private int authorDeptIdKunjie;
-    private String authorDeptNameKunjie;
-    private String authorDeptNoKunjie;
-    private String authorLocationKunjie;
+    private int deptId;
+    private String deptName;
+    private String deptNo;
+    private String location;
+    private Set<Employee> employees = new HashSet<>(0);
+
+    public Department() {}
+
+    public Department(int deptId, String deptName, String deptNo, String location) {
+        this.deptId = deptId;
+        this.deptNo = "D" + this.deptNo;
+        this.deptName = deptName;
+        this.location = location;
+    }
 
     @Id
     @Column(name = "DEPT_ID")
     public int getDeptId() {
-        return authorDeptIdKunjie;
+        return deptId;
     }
 
     public void setDeptId(int deptId) {
-        authorDeptIdKunjie = deptId;
+        this.deptId = deptId;
     }
 
     @Basic
     @Column(name = "DEPT_NAME")
     public String getDeptName() {
-        return authorDeptNameKunjie;
+        return deptName;
     }
 
     public void setDeptName(String deptName) {
-        authorDeptNameKunjie = deptName;
+        this.deptName = deptName;
     }
 
     @Basic
     @Column(name = "DEPT_NO")
     public String getDeptNo() {
-        return authorDeptNoKunjie;
+        return deptNo;
     }
 
     public void setDeptNo(String deptNo) {
-        authorDeptNoKunjie = deptNo;
+        this.deptNo = deptNo;
     }
 
     @Basic
     @Column(name = "LOCATION")
     public String getLocation() {
-        return authorLocationKunjie;
+        return location;
     }
 
     public void setLocation(String location) {
-        authorLocationKunjie = location;
+        this.location = location;
+    }
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "department")
+    public Set<Employee> getEmployees() {
+        return employees;
+    }
+
+    public void setEmployees(Set<Employee> employees) {
+        this.employees = employees;
     }
 
     @Override
@@ -63,12 +82,12 @@ public class Department {
 
         Department that = (Department) o;
 
-        if (authorDeptIdKunjie != that.authorDeptIdKunjie) return false;
-        if (authorDeptNameKunjie != null ? !authorDeptNameKunjie.equals(that.authorDeptNameKunjie) : that.authorDeptNameKunjie != null)
+        if (deptId != that.deptId) return false;
+        if (deptName != null ? !deptName.equals(that.deptName) : that.deptName != null)
             return false;
-        if (authorDeptNoKunjie != null ? !authorDeptNoKunjie.equals(that.authorDeptNoKunjie) : that.authorDeptNoKunjie != null)
+        if (deptNo != null ? !deptNo.equals(that.deptNo) : that.deptNo != null)
             return false;
-        if (authorLocationKunjie != null ? !authorLocationKunjie.equals(that.authorLocationKunjie) : that.authorLocationKunjie != null)
+        if (location != null ? !location.equals(that.location) : that.location != null)
             return false;
 
         return true;
@@ -76,10 +95,10 @@ public class Department {
 
     @Override
     public int hashCode() {
-        int result = authorDeptIdKunjie;
-        result = 31 * result + (authorDeptNameKunjie != null ? authorDeptNameKunjie.hashCode() : 0);
-        result = 31 * result + (authorDeptNoKunjie != null ? authorDeptNoKunjie.hashCode() : 0);
-        result = 31 * result + (authorLocationKunjie != null ? authorLocationKunjie.hashCode() : 0);
+        int result = deptId;
+        result = 31 * result + (deptName != null ? deptName.hashCode() : 0);
+        result = 31 * result + (deptNo != null ? deptNo.hashCode() : 0);
+        result = 31 * result + (location != null ? location.hashCode() : 0);
         return result;
     }
 }

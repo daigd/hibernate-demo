@@ -1,95 +1,137 @@
 package com.dgd.entity;
 
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.sql.Date;
 import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * @Author DGD
  * @date 2018/4/4.
  */
 @Entity
+@Table(name = "EMPLOYEE", uniqueConstraints = { @UniqueConstraint(columnNames = { "EMP_NO" }) })
 public class Employee {
-    private long authorEmpIdKunjie;
-    private String authorEmpNameKunjie;
-    private String authorEmpNoKunjie;
-    private Date authorHireDateKunjie;
-    private byte[] authorImageKunjie;
-    private String authorJobKunjie;
-    private double authorSalaryKunjie;
+    private long empId;
+    private String empName;
+    private String empNo;
+    private Date hireDate;
+    private byte[] image;
+    private String job;
+    private double salary;
+
+    private Employee manager;
+
+    private Department department;
+
+    private Set<Employee> employees = new HashSet<>(0);
+
+    public Employee() {
+    }
+
+    public Employee(Long empId, String empName, String job, Employee manager, Date hideDate, Float salary, Float comm,
+                    Department department) {
+        this.empId = empId;
+        this.empNo = "E" + this.empId;
+        this.empName = empName;
+        this.job = job;
+        this.manager = manager;
+        this.hireDate = hideDate;
+        this.salary = salary;
+        this.department = department;
+    }
+
 
     @Id
     @Column(name = "EMP_ID")
     public long getEmpId() {
-        return authorEmpIdKunjie;
+        return empId;
     }
 
     public void setEmpId(long empId) {
-        authorEmpIdKunjie = empId;
+        this.empId = empId;
     }
 
     @Basic
     @Column(name = "EMP_NAME")
     public String getEmpName() {
-        return authorEmpNameKunjie;
+        return empName;
     }
 
     public void setEmpName(String empName) {
-        authorEmpNameKunjie = empName;
+        this.empName = empName;
     }
 
     @Basic
     @Column(name = "EMP_NO")
     public String getEmpNo() {
-        return authorEmpNoKunjie;
+        return empNo;
     }
 
     public void setEmpNo(String empNo) {
-        authorEmpNoKunjie = empNo;
+        this.empNo = empNo;
     }
 
     @Basic
     @Column(name = "HIRE_DATE")
     public Date getHireDate() {
-        return authorHireDateKunjie;
+        return hireDate;
     }
 
     public void setHireDate(Date hireDate) {
-        authorHireDateKunjie = hireDate;
+        this.hireDate = hireDate;
     }
 
     @Basic
     @Column(name = "IMAGE")
     public byte[] getImage() {
-        return authorImageKunjie;
+        return image;
     }
 
     public void setImage(byte[] image) {
-        authorImageKunjie = image;
+        this.image = image;
     }
 
     @Basic
     @Column(name = "JOB")
     public String getJob() {
-        return authorJobKunjie;
+        return job;
     }
 
     public void setJob(String job) {
-        authorJobKunjie = job;
+        this.job = job;
     }
 
     @Basic
     @Column(name = "SALARY")
     public double getSalary() {
-        return authorSalaryKunjie;
+        return salary;
     }
 
     public void setSalary(double salary) {
-        authorSalaryKunjie = salary;
+        this.salary = salary;
     }
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "DEPT_ID", nullable = false)
+    public Department getDepartment() {
+        return department;
+    }
+
+    public void setDepartment(Department department) {
+        this.department = department;
+    }
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "empId")
+    public Set<Employee> getEmployees() {
+        return employees;
+    }
+
+    public void setEmployees(Set<Employee> employees) {
+        this.employees = employees;
+    }
+
 
     @Override
     public boolean equals(Object o) {
@@ -98,16 +140,16 @@ public class Employee {
 
         Employee employee = (Employee) o;
 
-        if (authorEmpIdKunjie != employee.authorEmpIdKunjie) return false;
-        if (Double.compare(employee.authorSalaryKunjie, authorSalaryKunjie) != 0) return false;
-        if (authorEmpNameKunjie != null ? !authorEmpNameKunjie.equals(employee.authorEmpNameKunjie) : employee.authorEmpNameKunjie != null)
+        if (empId != employee.empId) return false;
+        if (Double.compare(employee.salary, salary) != 0) return false;
+        if (empName != null ? !empName.equals(employee.empName) : employee.empName != null)
             return false;
-        if (authorEmpNoKunjie != null ? !authorEmpNoKunjie.equals(employee.authorEmpNoKunjie) : employee.authorEmpNoKunjie != null)
+        if (empNo != null ? !empNo.equals(employee.empNo) : employee.empNo != null)
             return false;
-        if (authorHireDateKunjie != null ? !authorHireDateKunjie.equals(employee.authorHireDateKunjie) : employee.authorHireDateKunjie != null)
+        if (hireDate != null ? !hireDate.equals(employee.hireDate) : employee.hireDate != null)
             return false;
-        if (!Arrays.equals(authorImageKunjie, employee.authorImageKunjie)) return false;
-        if (authorJobKunjie != null ? !authorJobKunjie.equals(employee.authorJobKunjie) : employee.authorJobKunjie != null)
+        if (!Arrays.equals(image, employee.image)) return false;
+        if (job != null ? !job.equals(employee.job) : employee.job != null)
             return false;
 
         return true;
@@ -117,13 +159,13 @@ public class Employee {
     public int hashCode() {
         int result;
         long temp;
-        result = (int) (authorEmpIdKunjie ^ (authorEmpIdKunjie >>> 32));
-        result = 31 * result + (authorEmpNameKunjie != null ? authorEmpNameKunjie.hashCode() : 0);
-        result = 31 * result + (authorEmpNoKunjie != null ? authorEmpNoKunjie.hashCode() : 0);
-        result = 31 * result + (authorHireDateKunjie != null ? authorHireDateKunjie.hashCode() : 0);
-        result = 31 * result + Arrays.hashCode(authorImageKunjie);
-        result = 31 * result + (authorJobKunjie != null ? authorJobKunjie.hashCode() : 0);
-        temp = Double.doubleToLongBits(authorSalaryKunjie);
+        result = (int) (empId ^ (empId >>> 32));
+        result = 31 * result + (empName != null ? empName.hashCode() : 0);
+        result = 31 * result + (empNo != null ? empNo.hashCode() : 0);
+        result = 31 * result + (hireDate != null ? hireDate.hashCode() : 0);
+        result = 31 * result + Arrays.hashCode(image);
+        result = 31 * result + (job != null ? job.hashCode() : 0);
+        temp = Double.doubleToLongBits(salary);
         result = 31 * result + (int) (temp ^ (temp >>> 32));
         return result;
     }

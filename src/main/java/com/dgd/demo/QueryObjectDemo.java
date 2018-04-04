@@ -21,5 +21,6 @@ public class QueryObjectDemo {
         Query<Employee> query = session.createQuery(sql);
         List<Employee> employeeList = query.getResultList();
         employeeList.forEach(e-> System.out.println(e.getEmpName()+","+e.getEmpNo()));
+        session.getTransaction().commit();
     }
 }
